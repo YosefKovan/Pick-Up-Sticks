@@ -1,8 +1,10 @@
 # Pick Up Sticks Game
 
-## Authors
+![System diagram](images/pick-up-sticks.png)
 
+## Author
 
+Yosef Kovan
 
 ## Overview
 
