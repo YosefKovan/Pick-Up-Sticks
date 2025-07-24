@@ -1,56 +1,83 @@
-Name1: Yosef Kovan
-ID: 328607304
+# Pick Up Sticks Game
 
-Name2: Shmuel Friedman
-ID: 312252588
+## Authors
 
-//========================
-//   about the program
-//========================
 
-this program is a pick up stick game. the idea of the game is to pick up all
-the sticks as quickly as possible and to beat the time on the clock.
 
-//========================
-//  basic data structures
-//========================
+## Overview
 
-the main data structure that hold the sticks throughout the game
-is a list container. we chose this since removing from a list is o(1).
+This project is a digital version of the classic "Pick Up Sticks" game, implemented in C++ using the SFML graphics library. The objective is to pick up all the sticks as quickly as possible, maximizing your score before the timer runs out.
 
-we have a map container which each key is the color and the value is a vector
-of pointers to that colored stick. drawing the sticks according to color is
-o(k) when k is the amount of sticks left of that color. the points for each color 
-is according to its order in the alphabet therefore picking a blue stick is the 
-highest amount of points. 
+## Gameplay
 
-each stick holds a unordered set in which it points to all the sticks above, 
-and a vector which points to all the stick under the current stick. removing 
-a stick from the above is o(1) on average since it is stored in a unorderes_set. 
-therefore removing sticks that are no longer valid is on average o(k) =< o(n).
+- **Goal:** Remove all sticks from the board before time runs out.
+- **Scoring:** Each stick color has a different point value (Blue is highest, then Green, Red, Yellow, Purple).
+- **Rules:** You can only pick up sticks that are not covered by any other stick.
+- **Timer:** Each stick adds 2 seconds to the total game time.
 
-//========================
-//   about the classes
-//========================
-we have the controller which is in charge of the main scree. Board class,
-which holds all the sticks and is in charge of the main game logic. Top bar class, 
-is in charge of storing the clock data how many sticks were lifted and etc... .
-We used a Resources class which holds all the game data and is implemented using
-a singletone design pattern. The side bar class is in charge of the three buttons on 
-the side. End screen class delas with drawing the end screen. 
-Stick class is in charge of holding all data regarding the stick and all logic used
-for the stick. File dealing is in charge of loading a file and saving a file.
+## Features
 
-//========================
-//      save file
-//========================
+- Interactive graphical interface (SFML)
+- Save and load game state
+- Score tracking and timer
+- End screens for win, loss, save, and exit
+- Help and exit buttons
 
-the info is saved to a text file. a file must exist in order to run due to the 
-cmake file. if you wish to delete the file and check what happens you can
-either remove the line from the cmake file and re-compile, or you can leave the 
-file empty and see the exception thrown.
+## Data Structures
 
-//========================
-//    time in the game
-//========================
-each stick is given 2 seconds.
+- **Sticks:** Stored in a `std::list` for efficient removal.
+- **Color Map:** `std::map<std::string, std::vector<Stick*>>` for quick access to sticks by color.
+- **Stick Relationships:** Each stick tracks which sticks are above (`std::unordered_set`) and below (`std::vector`) it for fast validity checks.
+
+## Main Classes
+
+- **Controller:** Manages the main game loop and menu.
+- **Board:** Handles game logic and stick management.
+- **TopBar:** Displays timer, score, and stick counts.
+- **SideBar:** Manages help, save, and exit buttons.
+- **EndScreen:** Displays end-of-game messages.
+- **Stick:** Represents a single stick and its logic.
+- **FileDealing:** Handles saving/loading game state.
+- **Resources:** Singleton for managing textures, fonts, and window.
+
+## Save File
+
+- Game state is saved to a text file (`saveFile.txt`).
+- The file must exist for the game to run (due to CMake configuration).
+- If you want to test error handling, you can empty or remove the file and observe the exception.
+
+## Build Instructions
+
+### Prerequisites
+
+- C++20 compatible compiler
+- [SFML 2.6](https://www.sfml-dev.org/download.php) (ensure the path in `CMakeLists.txt` matches your installation)
+- CMake 3.26 or higher
+
+### Building
+
+1. Clone the repository.
+2. Make sure SFML is installed and the `SFML_LOCATION` variable in `CMakeLists.txt` points to your SFML directory.
+3. Run CMake to configure the project:
+   ```sh
+   cmake -S . -B build
+   ```
+4. Build the project:
+   ```sh
+   cmake --build build
+   ```
+5. Run the executable from the build directory.
+
+### Notes
+
+- All required resources (images, fonts, save file) are copied to the build directory automatically.
+- On Windows, required SFML DLLs are also copied post-build.
+
+## Controls
+
+- **Mouse:** Click on sticks to pick them up (if valid).
+- **Side Buttons:** Use Help, Save, and Exit as needed.
+
+## License
+
+This project is for educational purposes. 
